@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NotepadHeader">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/pencil</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="NotepadText.Pre" parent="NotepadText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+
+    <style name="Notepad">
+        <item name="android:paddingTop">30dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:background">@color/paper</item>
+    </style>
+</resources>
