@@ -223,6 +223,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
 
     }
 
+
     private void initializePlayer() {
 
         if (mExoPlayer == null) {
@@ -236,9 +237,9 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             mExoPlayer.addListener(this);
 
             if (NetworkUtils.getNetworkInfo(getContext()) == NetworkUtils.TYPE_WIFI)
-                mExoPlayer.prepare(mVideoSource);
+                //mExoPlayer.prepare(mVideoSource);
+                mExoPlayer.prepare(mVideoSource, false, false);
             mExoPlayer.setPlayWhenReady(true);
-
             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
 
             if (haveResumePosition && mResumePosition > 0) {
@@ -248,15 +249,6 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-    private void releasePlayer() {
-        if (mExoPlayer != null) {
-            mResumePosition =  Math.max(0, mExoPlayer.getCurrentPosition());
-            mResumeWindow = mExoPlayer.getCurrentWindowIndex();
-            mPlayWhenReady = mExoPlayer.getPlayWhenReady();
-            mExoPlayer.release();
-            mExoPlayer = null;
-        }
-    }
 
     private void initFullscreenDialog() {
         mFullScreenDialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
@@ -301,21 +293,19 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onPause() {
         super.onPause();
-
-        if (Util.SDK_INT <= 23) {
-            releasePlayer();
+        if (mExoPlayer != null) {
+            mResumePosition = Math.max(0, mExoPlayer.getCurrentPosition());
+            mResumeWindow = mExoPlayer.getCurrentWindowIndex();
+            mPlayWhenReady = mExoPlayer.getPlayWhenReady();
+            onStop();
+            mExoPlayer.release();
+            mExoPlayer = null;
         }
+
         if (mFullScreenDialog != null)
             mFullScreenDialog.dismiss();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mExoPlayer != null) {
-            releasePlayer();
-        }
-    }
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
 
@@ -341,14 +331,6 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (Util.SDK_INT > 23) {
-            // release player
-            releasePlayer();
-        }
-    }
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
