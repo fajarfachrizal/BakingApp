@@ -8,7 +8,6 @@ This is a project of Udacity Android Developer Nanodegree. The task is to build 
 * [Espresso](https://developer.android.com/training/testing/espresso/index.html)
 * [Butter Knife](http://jakewharton.github.io/butterknife/)
 * [Exo Player](https://github.com/google/ExoPlayer)
-* [Glide](https://github.com/bumptech/glide)
 
 ## App Preview
 
